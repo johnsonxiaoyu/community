@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="../../jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
+    <script src="../../js/bootstrap.min.js"></script>
+    <style>
+        .text-color-999 {
+            font-size: 12px;
+            color: #999;
+        }
+        .text-desc{
+            font-size: 12px;
+            font-weight: normal;
+            color: #999;
+        }
+        .menu{
+            color: #999;
+        }
+    </style>
+
+</head>
+<body>
+    <div th:insert="navtop :: copy"></div>
+    <div class="container-fluid " style="background:url('../../images/bg.jpg') repeat;margin-top: -20px;">
+        <div class="row" style="margin: 30px;background-color: white;">
+
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
+                <h2>我的提问<hr></h2>
+                <span class="text-desc">
+                    作者：<span th:text="${QuestionList.name}"></span>|
+                    发布时间：<span th:text="${#dates.format(QuestionList.get('createtime'),'yyyy-MM-dd HH:mm')}"></span>|
+                    阅读数：<span th:text="${QuestionList.get('viewCount')}"></span>
+                </span>
+                <hr />
+                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" th:text="${QuestionList.get('description')}"></div><br/>
+                <hr />
+                <a th:href="@{/}" >
+                <span class="glyphicon glyphicon-pencil menu">
+                    编辑
+                </span>
+                </a>
+            </div>
+            <div  >
+                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+                    <h2>发起人</h2>
+                    <div class="media">
+                        <div class="media-left">
+                            <img class="media-object img-circle" th:src="${QuestionList.get('avatar_url')}"   style="width: 60px">
+                        </div>
+                        <div class="media-body" style="vertical-align: middle;">
+                            <h4 class="media-heading" th:text="${QuestionList.get('name')}">标题</h4>
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+                    <h2>相关问题</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>小宇社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../bootstrapValidator/css/bootstrapValidator.css">
+    <link rel="stylesheet" href="../editor/css/editormd.css">
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../editor/editormd.min.js"></script>
+    <script src="../bootstrapValidator/js/bootstrapValidator.js"></script>
+
+
+</head>
+<body>
+<div th:insert="navtop :: copy"></div>
+
+    <div class="container-fluid" style="background:url('/images/bg.jpg') repeat;margin-top: -20px;">
+        <div class="row" style="margin: 30px;background-color: white;">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+                <h2>
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true">
+                    </span>发起<hr></h2>
+                <form  id="firstForm" action="/PlishController/addQuestion">
+                    <div class="form-group">
+                        <label for="title">问题标题(简单扼要)：</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="问题标题...">
+                    </div>
+                    <div class="form-group" id="test-editor">
+                        <label for="title">问题补充{必填,请参照右侧提示}：</label>
+                        <textarea class="form-control" style="display:none;" name="description" id="description" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">添加标签：</label>
+                        <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以逗号隔开">
+                    </div>
+                    <button type="submit"  class="btn btn-success" style="float: right;margin-bottom: 15px;">发布</button>
+                </form>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+                <h3>问题发起指南</h3>
+                • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br/>
+                • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料：<br/>
+                • 选择标签: 选择一个或者多个合适的标签用逗号隔开不超过10个字<br/>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#firstForm')
+            .bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    title: {
+                        message: '标题错误',
+                        validators: {
+                            notEmpty: {
+                                message: '标题不能为空'
+                            },
+                            stringLength: {
+                                min: 3,
+                                max: 30,
+                                message: '标题最少3个字符最多30个字符'
+                            },
+                        }
+                    },
+                    description: {
+                        validators: {
+                            notEmpty: {
+                                message: '问题内容不能为空'
+                            },
+                        }
+                    },
+                    tag: {
+                        validators: {
+                            notEmpty: {
+                                message: '问题内容不能为空'
+                            },
+                        }
+                    }
+
+                }
+            })
+            .on('success.form.bv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Get the form instance
+                var $form = $(e.target);
+
+                // Get the BootstrapValidator instance
+                var bv = $form.data('bootstrapValidator');
+
+                // Use Ajax to submit form data
+                $.post($form.attr('action'), $form.serialize(), function(result) {
+                    location.href="/";
+
+                }, 'json');
+            });
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("test-editor", {
+             width  : "100%",
+             height : "350px",
+             path   : "/editor/lib/"
+        });
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,53 @@
+
+server:
+    port: 8887
+github.client.id: 919dc8787c92df2b7e33
+github.client.secret: 543021e4f3154167d3923c9a7b9a7a8a01f25912
+github.redirect.uri: http://localhost:8887/callback
+
+spring:
+    datasource:
+        username: root
+        password: 123456
+        url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        druid:
+            initial-size: 8
+            min-idle: 1
+            max-active: 20
+            max-wait: 60000
+            time-between-eviction-runsMillis: 60000
+            min-evictable-idle-timeMillis: 300000
+            validation-query: select 'x' FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            pool-prepared-statements: true
+            max-open-prepared-statements: 20
+            max-pool-prepared-statement-per-connection-size: 20
+            filters: stat
+            connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+            use-global-data-source-stat: true
+
+    thymeleaf:
+        cache: false
+
+mybatis:
+    mapper-locations: classpath:mapping/*Mapper.xml
+    type-aliases-package: com.example.entity
+    configLocation: classpath:config/mybatis-config.xml
+
+
+#showSql
+logging:
+    level:
+        com:
+            xxy:
+                community:
+                    community:
+                        mapper: debug
+
+
+
+
+
